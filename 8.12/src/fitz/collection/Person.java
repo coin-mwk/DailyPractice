@@ -6,7 +6,7 @@ import java.util.Objects;
  * @author Fitz
  * @create 2020-08-13-11:37 上午
  */
-public class Person {
+public class Person implements Comparable<Person> {
     int age;
     String name;
 
@@ -38,5 +38,10 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(age, name);
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return this.age - o.age;
     }
 }
