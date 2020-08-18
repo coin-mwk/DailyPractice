@@ -14,12 +14,7 @@ public class LinkedListTest {
         list.add(5);
         list.add(6);
         System.out.println(list);
-        ListIterator<Object> obj = new ListIterator<>() {
-            @Override
-            public Object previous() {
-                return null;
-            }
-        };
+
         Iterator<Integer> it = list.iterator();
         while (it.hasNext()) {
             if (it.next() % 2 != 0) {
