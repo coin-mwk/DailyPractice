@@ -9,6 +9,7 @@
 import urllib.request
 import urllib.parse
 import ssl
+import json
 
 
 def main():
@@ -26,7 +27,11 @@ def main():
     request = urllib.request.Request(url=url, headers=headers, data=date)
     response = urllib.request.urlopen(request)
     content = response.read().decode("utf-8")
-    print(content)
+
+    # 反序列化
+    obj = json.loads(content)
+    s = json.dumps(obj, ensure_ascii=False)
+    print(s)
     
     
 
