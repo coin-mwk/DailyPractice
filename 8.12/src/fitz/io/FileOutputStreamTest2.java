@@ -16,9 +16,8 @@ public class FileOutputStreamTest2 {
 
     private void show01() throws IOException {
         FileOutputStream fos = new FileOutputStream("8.12/src/fitz/io/d.txt", true);
-        byte[] bytes = "今天学习Java了吗！".getBytes();
-        byte[] bytes1 = "今天学习爬虫了吗！".getBytes();
-        fos.write(bytes);
+        fos.write("今天学习Java了吗！\r".getBytes());
+        fos.write("今天学习爬虫了吗！\r".getBytes());
         fos.close();
     }
 }
