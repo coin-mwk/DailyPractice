@@ -12,11 +12,8 @@ import java.io.RandomAccessFile;
 public class RandomAccessFileTest {
     public static void main(String[] args) {
         RandomAccessFile raf1 = null;
-        RandomAccessFile raf2 = null;
-
         try {
             raf1 = new RandomAccessFile(new File("8.12/src/fitz/io/c.txt"),"rwd");
-            raf2 = new RandomAccessFile(new File("8.12/src/fitz/io/c_new.txt"),"rwd");
             byte[] bytes = new byte[1024];
             raf1.seek(1);
             int len = raf1.read(bytes);
@@ -27,13 +24,6 @@ public class RandomAccessFileTest {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            if (raf2!=null) {
-                try {
-                    raf2.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             if (raf1!=null) {
                 try {
                     raf1.close();
