@@ -14,6 +14,7 @@ public class TCPServerTest1 {
         Socket socket = null;
         InputStream is = null;
         FileOutputStream fos = null;
+        OutputStream os = null;
         try {
             serverSocket = new ServerSocket(8899);
             socket = serverSocket.accept();
@@ -24,6 +25,8 @@ public class TCPServerTest1 {
             while ((len = is.read(bytes)) != -1) {
                 fos.write(bytes,0,len);
             }
+            os = socket.getOutputStream();
+            os.write("数据我收到了！谢谢你哦！".getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -51,6 +54,13 @@ public class TCPServerTest1 {
             if (serverSocket!=null) {
                 try {
                     serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (os!=null) {
+                try {
+                    os.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
