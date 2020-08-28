@@ -13,9 +13,12 @@ public class Test {
         InetAddress inet = null;
         try {
             inet = InetAddress.getByName("www.vip.com");
+            InetAddress inet1 = InetAddress.getLocalHost();
+            System.out.println(inet);
+            System.out.println(inet1);
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        System.out.println(inet);
     }
 }
