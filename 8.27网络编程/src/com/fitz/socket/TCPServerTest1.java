@@ -19,7 +19,7 @@ public class TCPServerTest1 {
             serverSocket = new ServerSocket(8899);
             socket = serverSocket.accept();
             is = socket.getInputStream();
-            fos = new FileOutputStream(new File("8.27网络编程/src/com/fitz/socket/a.jpeg"));
+            fos = new FileOutputStream(new File("8.27网络编程/src/com/fitz/socket/b.jpeg"));
             int len = 0;
             byte[] bytes = new byte[1024];
             while ((len = is.read(bytes)) != -1) {
