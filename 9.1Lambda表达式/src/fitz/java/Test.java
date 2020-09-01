@@ -16,11 +16,13 @@ public class Test {
     }
 
     private static void show03() {
-        // 情况三： 类::静态方法
+        // 情况三： 类::实例方法
         //Lambda写法
-        Comparator<Integer> com1 = (t1, t2) -> Integer.compare(t1, t2);
-        System.out.println(com1.compare(12, 13));
+        Comparator<String> com1 = (s1, s2) -> s1.compareTo(s2);
+        System.out.println(com1.compare("abc", "def"));
         //方法引用写法
+        Comparator<String> com2 = String::compareTo;
+        System.out.println(com2.compare("abc", "abd"));
     }
 
     private static void show02() {
