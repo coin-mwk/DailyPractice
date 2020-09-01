@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/8.12/8.12.iml" filepath="$PROJECT_DIR$/8.12/8.12.iml" />
       <module fileurl="file://$PROJECT_DIR$/8.27网络编程/8.27网络编程.iml" filepath="$PROJECT_DIR$/8.27网络编程/8.27网络编程.iml" />
       <module fileurl="file://$PROJECT_DIR$/8.29反射/8.29反射.iml" filepath="$PROJECT_DIR$/8.29反射/8.29反射.iml" />
+      <module fileurl="file://$PROJECT_DIR$/8.31动态代理/8.31动态代理.iml" filepath="$PROJECT_DIR$/8.31动态代理/8.31动态代理.iml" />
       <module fileurl="file://$PROJECT_DIR$/DailyPractice.iml" filepath="$PROJECT_DIR$/DailyPractice.iml" />
     </modules>
   </component>
