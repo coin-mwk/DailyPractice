@@ -9,14 +9,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>ServletTest1</display-name>
-    <servlet-name>ServletTest1</servlet-name>
-    <servlet-class>fitz.servlet.ServletTest1</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletTest1</servlet-name>
-    <url-pattern>/servletTest1</url-pattern>
-  </servlet-mapping>
 </web-app>
