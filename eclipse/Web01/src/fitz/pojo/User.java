@@ -8,7 +8,7 @@ package fitz.pojo;
  *
  */
 public class User {
-	private int id;
+	private Integer id;
 	private String username;
 	private String password;
 	private String email;
@@ -18,7 +18,7 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public User(int id, String username, String password, String email) {
+	public User(Integer id, String username, String password, String email) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -31,7 +31,7 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
