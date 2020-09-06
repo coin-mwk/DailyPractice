@@ -301,7 +301,7 @@ public class Table_book_test {
 	 */
 	@Test
 	public void test5() throws Exception {
-		String sql = "insert into t_user2 (username,password,email,photo) values (?,?,?,?)";
+		String sql = "insert into t_ user2 (username,password,email,photo) values (?,?,?,?)";
 		FileInputStream is = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
