@@ -5,6 +5,8 @@ package fitz.junit;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -194,5 +197,145 @@ public class Table_book_test {
 		}	
 		return null;		
 	}
+	
+	public <T> T queryOne(Class<T> clazz, String sql, Object ...args) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet res = null;
+		try {
+			conn = JdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				ps.setObject(i+1, args[i]);
+			}
+			//获取结果集
+			res = ps.executeQuery();
+			//获取结果集元数据
+			ResultSetMetaData metaData = res.getMetaData();
+			//获取结果集列数
+			int columnCount = metaData.getColumnCount();
+			if (res.next()) {
+				T t = clazz.newInstance();
+				for (int j = 0; j < columnCount; j++) {
+					//获取列值
+					Object columnVallue = res.getObject(j+1);
+					//获取列的别名
+					String columnLabel = metaData.getColumnLabel(j+1);
+					Field field = clazz.getDeclaredField(columnLabel);
+					field.setAccessible(true);
+					field.set(t, columnVallue);
+				}
+				return t;
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			JdbcUtils.closeConnection(conn, ps, res);
+		}
+		return null;
+	}
+	
+	public <T> List<T> queryMore(Class<T> clazz, String sql, Object ...args) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet res = null;
+		try {
+			conn = JdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				ps.setObject(i+1, args[i]);
+			}
+			//获取结果集
+			res = ps.executeQuery();
+			//获取结果集元数据
+			ResultSetMetaData metaData = res.getMetaData();
+			//获取结果集列数
+			int columnCount = metaData.getColumnCount();
+			ArrayList<T> list = new ArrayList<T>();
+			while (res.next()) {
+				T t = clazz.newInstance();
+				for (int j = 0; j < columnCount; j++) {
+					//获取列值
+					Object columnVallue = res.getObject(j+1);
+					//获取列的别名
+					String columnLabel = metaData.getColumnLabel(j+1);
+					Field field = clazz.getDeclaredField(columnLabel);
+					field.setAccessible(true);
+					field.set(t, columnVallue);
+				}
+				list.add(t);
+			}
+			return list;
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			JdbcUtils.closeConnection(conn, ps, res);
+		}
+		return null;
+	}
+	
+	@Test
+	public void test4() throws Exception {
+		//查询一条记录
+		String sql = "select id,username,password,email from t_user where id = ?";
+		User user = queryOne(User.class,sql, 2);
+		System.out.println(user);
+		System.out.println("========================");
+//		查询多条记录
+		String sql1 = "select id,username,password,email from t_user where id < ?";
+		List<User> setList = getForList(User.class, sql1, 3);
+		setList.forEach(System.out::println);
+//		Iterator<User> it = setList.iterator();
+//		while (it.hasNext()) {
+//			System.out.println(it.next());
+//		}
+//		for(User a:setList) {
+//			System.out.println(a);
+//		}
+	}
+	
+	
+	/**
+	 * 向数据库中插入一条blob类型的数据
+	 * @throws Exception
+	 */
+	@Test
+	public void test5() throws Exception {
+		String sql = "insert into t_user2 (username,password,email,photo) values (?,?,?,?)";
+		FileInputStream is = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = JdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+			is = new FileInputStream(new File("IMG_1300.jpeg"));
+			System.out.println(is);
+			System.out.println("111111111");
+			ps.setString(1, "kkk");
+			ps.setString(2, "kkk");
+			ps.setString(3, "kkk");		
+			System.out.println("33333333");
+			ps.setBlob(4, is);
+			System.out.println("222222222222");
+			int executeUpdate = ps.executeUpdate();
+			System.out.println("kkkkkk");
+			if (executeUpdate>0) {
+				System.out.println("插入成功！");
+			}else {
+				System.out.println("插入失败！");
+			}
+			System.out.println("bbbbbbbb");
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			JdbcUtils.closeConnection(conn, ps);
+			if (is!=null) {
+				is.close();
+			}
+		}
+	}
 
 }
+
+
