@@ -60,7 +60,6 @@ public class TransactionTest {
 	int update(Connection conn, String sql, Object ...args){
 		PreparedStatement ps = null;
 		try {
-			conn = JdbcUtils.getConnection();
 			ps = conn.prepareStatement(sql);
 			for (int i = 0; i < args.length; i++) {
 				ps.setObject(i+1, args[i]);
