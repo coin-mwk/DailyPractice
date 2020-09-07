@@ -45,7 +45,7 @@ public abstract class BaseDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-//			JdbcUtils.closeConnection(null, ps);
+			JdbcUtils.closeConnection(null, ps);
 		}
 		return 0;
 	}
@@ -90,7 +90,7 @@ public abstract class BaseDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-//			JdbcUtils.closeConnection(null, ps,res);
+			JdbcUtils.closeConnection(null, ps,res);
 		}
 		return null;
 		

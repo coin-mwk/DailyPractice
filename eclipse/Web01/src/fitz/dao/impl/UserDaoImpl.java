@@ -25,7 +25,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public int insert(Connection conn, User user) {
 		// TODO Auto-generated method stub
-		String sql = "insert into user (username,password,email) values (?,?,?)";
+		String sql = "insert into t_user (username,password,email) values (?,?,?)";
 		int update = update(conn, sql,user.getUsername(),user.getPassword(),user.getEmail());		
 		return update;
 	}
@@ -38,7 +38,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public int deleteById(Connection conn, int id) {
 		// TODO Auto-generated method stub
-		String sql = "delete from user where id = ?";
+		String sql = "delete from t_user where id = ?";
 		int update = update(conn, sql, id);
 		return update;
 	}
@@ -51,8 +51,9 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public int update(Connection conn, User user) {
 		// TODO Auto-generated method stub
-		String sql = "update user set username=?,password=?,email=? where id = ?";
-		int update = update(conn, sql, user.getUsername(),user.getPassword(),user.getEmail());
+		int id = user.getId();
+		String sql = "update t_user set username=?,password=?,email=? where id = ?";
+		int update = update(conn, sql, user.getUsername(),user.getPassword(),user.getEmail(),id);
 		return update;
 	}
 
@@ -64,7 +65,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public User getInfoById(Connection conn, int id) {
 		// TODO Auto-generated method stub
-		String sql = "select * from user where id = ?";
+		String sql = "select username,password,email from t_user where id = ?";
 		User user = queryOne(conn, User.class, sql, id);
 		return user;
 	}
@@ -77,7 +78,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public List<User> getAlll(Connection conn) {
 		// TODO Auto-generated method stub
-		String sql = "select * from user ";
+		String sql = "select * from t_user ";
 		List<User> list = getForList(conn, User.class, sql);
 		return list;
 	}
@@ -90,7 +91,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	@Override
 	public long getCount(Connection conn) {
 		// TODO Auto-generated method stub
-		String sql = "select count(*) from user user";
+		String sql = "select count(*) from t_user";
 		return getValue(conn, sql);
 	}
 }
