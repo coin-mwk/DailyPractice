@@ -3,6 +3,8 @@
  */
 package fitz.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.util.List;
 
@@ -15,8 +17,8 @@ import fitz.utils.JdbcUtils;
  * @author tonystark
  *
  */
-public class UserDaoImpl extends BaseDao implements UserDao {
-
+public class UserDaoImpl extends BaseDao<User> implements UserDao {
+	
 	/**
 	 * 功能：想数据表中插入一条数据
 	 * @param conn
@@ -66,7 +68,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	public User getInfoById(Connection conn, int id) {
 		// TODO Auto-generated method stub
 		String sql = "select username,password,email from t_user where id = ?";
-		User user = queryOne(conn, User.class, sql, id);
+		User user = queryOne(conn, sql, id);
 		return user;
 	}
 
@@ -79,7 +81,7 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	public List<User> getAlll(Connection conn) {
 		// TODO Auto-generated method stub
 		String sql = "select * from t_user ";
-		List<User> list = getForList(conn, User.class, sql);
+		List<User> list = getForList(conn, sql);
 		return list;
 	}
 

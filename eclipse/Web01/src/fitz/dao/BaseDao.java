@@ -4,6 +4,8 @@
 package fitz.dao;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,9 +22,17 @@ import fitz.utils.JdbcUtils;
  * @author tonystark
  *
  */
-public abstract class BaseDao {
+public abstract class BaseDao<T>  {
 
-	private ResultSet res;
+	private Class<T> clazz;
+
+	{
+		Type genericSuperclass = this.getClass().getGenericSuperclass();
+		ParameterizedType type = (ParameterizedType) genericSuperclass;
+		Type[] arguments = type.getActualTypeArguments();
+		clazz = (Class<T>) arguments[0];
+	}
+	
 
 	/**
 	 * 功能：通用的修改操作，可以处理增删改查
@@ -59,7 +69,7 @@ public abstract class BaseDao {
 	 * @param args
 	 * @return
 	 */
-	public <T> T queryOne (Connection conn, Class<T> clazz, String sql, Object ...args) {
+	public T queryOne (Connection conn, String sql, Object ...args) {
 		
 		PreparedStatement ps = null;
 		ResultSet res = null;
@@ -105,7 +115,7 @@ public abstract class BaseDao {
 	 * @param args
 	 * @return
 	 */
-	public <T> List<T> getForList(Connection conn, Class<T> clazz,String sql, Object ...args){
+	public List<T> getForList(Connection conn, String sql, Object ...args){
 		PreparedStatement ps = null;
 		ResultSet res = null;
 		try {
@@ -155,9 +165,9 @@ public abstract class BaseDao {
 	 */
 	public <E> E getValue(Connection conn, String sql, Object ...args) {
 		PreparedStatement ps = null;
-		res = null;
+		ResultSet res = null;
 		try {
-			conn.prepareStatement(sql);
+			ps = conn.prepareStatement(sql);
 			for (int i = 0; i < args.length; i++) {	
 				ps.setObject(i+1, args[i]);
 			}
