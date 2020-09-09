@@ -1,15 +1,21 @@
-package com.atguigu.pojo;
+package fitz.pojo;
 
+
+/**
+ * 
+ * Description:User实体类
+ * 
+ * @author tonystark
+ *
+ */
 public class User {
-
 	private Integer id;
 	private String username;
 	private String password;
 	private String email;
-
+	
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public User(Integer id, String username, String password, String email) {
@@ -54,8 +60,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password="
-				+ password + ", email=" + email + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
 	}
-
+	
+	
 }

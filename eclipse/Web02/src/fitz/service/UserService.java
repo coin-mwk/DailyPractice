@@ -1,14 +1,19 @@
-package com.atguigu.service;
+package fitz.service;
 
-import com.atguigu.pojo.User;
+import fitz.pojo.User;
 
+/**
+ * 
+ * Description:一个业务一个方法
+ * 
+ * @author tonystark
+ *
+ */
 public interface UserService {
 
-	public User login(User user);
-
-	public void registUser(User user);
-
-	public boolean existsUsername(String username);
-
+	User login(User user);
+	
+	int registeUser(User user);
+	
+	boolean existsUsername(String username);
 }
-

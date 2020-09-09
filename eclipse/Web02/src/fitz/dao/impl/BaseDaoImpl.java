@@ -1,5 +1,7 @@
-package com.atguigu.dao.impl;
+package fitz.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,109 +11,87 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import com.atguigu.util.JdbcUtils;
-
-public abstract class BaseDaoImpl {
+/**
+ * 
+ * Description:封装多有数据库的相关操作
+ * 
+ * @author tonystark
+ *
+ */
+public abstract class BaseDaoImpl<T> {
 
 	private QueryRunner queryRunner = new QueryRunner();
-
-	/**
-	 * 执行insert、update、delete语句
-	 * 
-	 * @param sql
-	 *            要执行的sql语句
-	 * @param args
-	 *            占位符的参数值
-	 * @return -1表示执行失败，其他值表示执行的行数
-	 */
-	public int update(String sql, Object... args) {
-		Connection conn = JdbcUtils.getConnection();
-		/**
-		 * 执行insert、update、delete语句
-		 */
+	private Class<T> clazz;
+	{
+		Type genericSuperclass = this.getClass().getGenericSuperclass();
+		ParameterizedType type = (ParameterizedType) genericSuperclass;
+		Type[] arguments = type.getActualTypeArguments();
+		clazz = (Class<T>) arguments[0];
+	}
+	
+	
+	public int update(Connection conn, String sql, Object ...args) {	
 		try {
 			return queryRunner.update(conn, sql, args);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JdbcUtils.closeConnection(conn);
 		}
-		return -1;
+		return 0;
 	}
-
+	
 	/**
-	 * 执行查询返回值是一个javaBean的sql语句
 	 * 
+	 * Description:查询返回一个实体对象
+	 * @param conn
 	 * @param sql
-	 *            查询的sql语句
-	 * @param type
-	 *            返回javaBean的具体类型
 	 * @param args
-	 *            sql语句中占位符的参数值
-	 * @return 查询失败返回null，有值就成功！
+	 * @return
 	 */
-	public <T> T queryOne(String sql, Class<T> type, Object... args) {
-		Connection conn = JdbcUtils.getConnection();
+	public T queryOne(Connection conn, String sql, Object ...args) {
 		try {
-			return queryRunner.query(conn, sql, new BeanHandler<T>(type), args);
+			return queryRunner.query(conn, sql, new BeanHandler<T>(clazz), args);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JdbcUtils.closeConnection(conn);
 		}
 		return null;
 	}
-
+	
 	/**
-	 * 执行查询返回值是多个javaBean的sql语句
 	 * 
+	 * Description:查询返回一个实体对象的集合
+	 * @param conn
 	 * @param sql
-	 *            查询的sql语句
-	 * @param type
-	 *            返回javaBean的具体类型
 	 * @param args
-	 *            sql语句中占位符的参数值
-	 * @return 查询失败返回null，有值就成功！
+	 * @return
 	 */
-	public <T> List<T> queryList(String sql, Class<T> type, Object... args) {
-		Connection conn = JdbcUtils.getConnection();
+	public List<T> queryForList(Connection conn, String sql, Object ...args) {
 		try {
-			return queryRunner.query(conn, sql, new BeanListHandler<T>(type),
-					args);
+			return (List<T>) queryRunner.query(conn, sql, new BeanListHandler(clazz), args);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JdbcUtils.closeConnection(conn);
 		}
 		return null;
 	}
-
+	
 	/**
-	 * 执行查询返回值是单个列的sql语句
 	 * 
+	 * Description:查询的特殊情况，返回某个值
+	 * @param conn
 	 * @param sql
-	 *            查询的sql语句
-	 * @param type
-	 *            返回javaBean的具体类型
 	 * @param args
-	 *            sql语句中占位符的参数值
-	 * @return 查询失败返回null，有值就成功！
+	 * @return
 	 */
-	public Object queryForSingleValue(String sql, Object... args) {
-		Connection conn = JdbcUtils.getConnection();
+	public Object queryForSingleValue(Connection conn, String sql, Object ...args) {
 		try {
-			/**
-			 * BeanHandler 是将查询到的结果集封装成为一个javaBean返回<br/>
-			 * BeanListHandler 是将查询到的结果集封装成为一个list集合，并且里面每个都是指定的javaBean类型<br/>
-			 * ScalarHandler 是将查询到的某个列的结果返回。<br/>
-			 */
 			return queryRunner.query(conn, sql, new ScalarHandler(), args);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			JdbcUtils.closeConnection(conn);
 		}
-		return null;
+		return null;		
 	}
-
+	
 }

@@ -1,30 +1,42 @@
-package com.atguigu.dao;
+package fitz.dao;
 
-import com.atguigu.pojo.User;
+import java.sql.Connection;
 
+import fitz.pojo.User;
+
+/**
+ * 
+ * Description:封装User类所有功能的抽象方法
+ * 
+ * @author tonystark
+ *
+ */
 public interface UserDao {
-	/**
-	 * 根据用户名和密码查询用户
-	 * 
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public User queryUserByUsernameAndPassword(String username, String password);
 
 	/**
-	 * 保存用户
 	 * 
+	 * Description:注册时添加用户
+	 * @param conn
 	 * @param user
 	 * @return
 	 */
-	public int saveUser(User user);
-
+	int insert(Connection conn, User user);
+	
 	/**
-	 * 根据用户名查询用户
 	 * 
-	 * @param username
+	 * Description:查询用户名和密码是否正确
+	 * @param conn
+	 * @param user
 	 * @return
 	 */
-	public User queryUserByUsername(String username);
+	User queryUsernameAdPassword(Connection conn, User user);
+	
+	/**]
+	 * 
+	 * Description:查询用户名是否存在
+	 * @param conn
+	 * @param user
+	 * @return
+	 */
+	User queryUsername(Connection conn, String username);
 }

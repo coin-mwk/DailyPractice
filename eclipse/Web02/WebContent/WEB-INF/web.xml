@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>RegistServlet</display-name>
+    <servlet-name>RegistServlet</servlet-name>
+    <servlet-class>fitz.servlet.RegistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistServlet</servlet-name>
+    <url-pattern>/registServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
