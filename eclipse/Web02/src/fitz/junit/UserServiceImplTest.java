@@ -29,6 +29,9 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testRegisteUser() {
+		UserServiceImpl userServiceImpl = new UserServiceImpl();
+		System.out.println(userServiceImpl.registeUser(new User(null,"fitz","fitz","fitz@qq.com")));
+		System.out.println(userServiceImpl.registeUser(new User(null,"fitzz","fitz","fitz@qq.com")));
 	}
 
 	@Test
