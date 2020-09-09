@@ -10,10 +10,10 @@ import fitz.service.impl.UserServiceImpl;
 
 public class UserServiceImplTest {
 
-//	UserServiceImpl userServiceImpl = null;
+	static UserServiceImpl userServiceImpl;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-//		UserServiceImpl userServiceImpl = new UserServiceImpl();
+		userServiceImpl = new UserServiceImpl();
 		System.out.println("1");
 	}
 	
@@ -21,7 +21,6 @@ public class UserServiceImplTest {
 	@Test
 	public void testLogin() {
 		System.out.println("2");
-		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		System.out.println(userServiceImpl.login(new User(null, "fitz","fitz","fitz@qq.com")));
 		//用户名错
 		System.out.println(userServiceImpl.login(new User(null, "ftz","fitz","fitz@qq.com")));
@@ -29,7 +28,6 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testRegisteUser() {
-		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		System.out.println(userServiceImpl.registeUser(new User(null,"fitz","fitz","fitz@qq.com")));
 		System.out.println(userServiceImpl.registeUser(new User(null,"fitzz","fitz","fitz@qq.com")));
 	}
