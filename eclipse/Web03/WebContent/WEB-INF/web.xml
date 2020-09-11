@@ -39,4 +39,14 @@
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/userServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BaseServlet</display-name>
+    <servlet-name>BaseServlet</servlet-name>
+    <servlet-class>fitz.servlet.BaseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BaseServlet</servlet-name>
+    <url-pattern>/baseServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
