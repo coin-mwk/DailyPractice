@@ -13,15 +13,15 @@ import fitz.pojo.User;
 
 public class Test1 {
 	
-	@Test
-	public void test1() throws Exception {
-
-		InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-		System.out.println("111");
-		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+	public static void main(String[] args) throws Exception {
+		//加载mybatis的配置文件
+		InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+		
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
+		System.out.println(sqlSessionFactory);
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-		  User user = sqlSession.selectOne("fitz.pojo.User.java.selectUserById", 1);
+		  User user = sqlSession.selectOne("fitz.pojo.User.selectUserById", 1);
 		  System.out.println(user);
 		} finally {
 		  sqlSession.close();

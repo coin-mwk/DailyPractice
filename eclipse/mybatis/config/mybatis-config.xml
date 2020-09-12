@@ -8,13 +8,15 @@
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql//localhost:3306/book_test"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/book_test"/>
         <property name="username" value="root"/>
         <property name="password" value="hhha120."/>
       </dataSource>
     </environment>
   </environments>
+  
   <mappers>
-    <mapper resource="fitz.pojo.User.java"/>
+  <!-- 引入一个SQL语句的配置文件 -->
+    <mapper resource="fitz/pojo/UserMapper.xml"/>
   </mappers>
 </configuration>

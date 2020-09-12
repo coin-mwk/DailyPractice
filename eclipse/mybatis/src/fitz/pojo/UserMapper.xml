@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
-<mapper namespace="fitz.pojo.User.java">
-  <select id="selectUserById" resultType="fitz.pojo.User.java">
+<mapper namespace="fitz.pojo.User">
+  <select id="selectUserById" resultType="fitz.pojo.User">
     select id,username,password,email from t_user where id = #{id}
   </select>
 </mapper>
