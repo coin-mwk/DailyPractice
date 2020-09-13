@@ -25,7 +25,6 @@ public class Test1 {
 		  System.out.println(user);
 		} finally {
 		  sqlSession.close();
-		  
 		  }	
 		}
 
