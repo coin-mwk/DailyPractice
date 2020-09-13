@@ -5,7 +5,18 @@
   
   
 <mapper namespace="fitz.pojo.User">
-  <select id="selectUserById" resultType="fitz.pojo.User">
-    select id,username,password,email from t_user where id = #{id}
-  </select>
+	<select id="selectUserById" resultType="fitz.pojo.User">
+    	select id,username,password,email from t_user where id = #{id}
+  	</select>
+  	<!--parameterType设置方法的参数类型（可以省略，如果为JavaBean，不推荐省略）  -->
+  	<insert id="addUser" parameterType="fitz.pojo.User">
+  		insert into t_user(username,password,email) values (#{username},#{password},#{email})
+  	</insert>	
+	 <delete id="deleteById">
+ 		delete from t_user where id = #{id}
+ 	</delete>
+ 	<update id="updateUser" parameterType="fitz.pojo.User">
+ 		update t_user set username=#{username},password=#{password},email=#{email} where id = #{id}
+ 	</update>
+  
 </mapper>
