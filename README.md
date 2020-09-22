@@ -4,3 +4,6 @@ record my daily practice
 
 
 #今日到校
+
+
+#9-23下雨
