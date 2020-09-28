@@ -16,7 +16,7 @@ public class ThreadTest1 {
                 public void run() {
                     myTicket.sale();
                 }
-            }).start();
+            },"消费者者线程"+i).start();
         }
 
     }
