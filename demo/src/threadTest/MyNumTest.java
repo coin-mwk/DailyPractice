@@ -10,12 +10,14 @@ public class MyNumTest {
 
     public void print0() {
         if (num != 0) {
+            num --;
             System.out.println(num);
         }
     }
 
     public void print1() {
         if (num != 1) {
+            num ++;
             System.out.println(num);
         }
     }
