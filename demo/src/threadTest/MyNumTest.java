@@ -9,16 +9,29 @@ public class MyNumTest {
     public static int num = 0;
 
     public void print0() {
-        if (num != 0) {
-            num --;
-            System.out.println(num);
+        if (num == 0) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        num--;
+        System.out.println(Thread.currentThread().getName()+"打印："+num);
+        this.notifyAll();
+
     }
 
     public void print1() {
-        if (num != 1) {
-            num ++;
-            System.out.println(num);
+        if (num != 0) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        System.out.println(Thread.currentThread().getName()+"打印："+num);
+        num++;
+        this.notifyAll();
     }
 }
