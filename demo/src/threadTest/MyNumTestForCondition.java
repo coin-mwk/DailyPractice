@@ -18,33 +18,41 @@ public class MyNumTestForCondition {
     final Condition con1 = lock.newCondition();
     final Condition con0 = lock.newCondition();
 
-    public synchronized void print0() {
-        while (num == 0) {
-            try {
-                con0.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void print0() {
+        lock.lock();
+        try {
+            while (num == 0) {
+                try {
+                    con0.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            num--;
+            System.out.println(Thread.currentThread().getName()+"打印："+num);
+            //唤醒打印1的线程
+            con1.signal();
+        }finally {
+            lock.unlock();
         }
-        num--;
-        System.out.println(Thread.currentThread().getName()+"打印："+num);
-
-        //唤醒打印1的线程
-        con1.signal();
-
     }
 
-    public synchronized void print1() {
-        while (num != 0) {
-            try {
-                con1.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void print1() {
+        lock.lock();
+        try {
+            while (num != 0) {
+                try {
+                    con1.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        num++;
-        System.out.println(Thread.currentThread().getName()+"打印："+num);
+            num++;
+            System.out.println(Thread.currentThread().getName()+"打印："+num);
 
-        con0.signal();
+            con0.signal();
+        }finally {
+            lock.unlock();
+        }
     }
 }
