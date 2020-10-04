@@ -8,8 +8,8 @@ public class MyNumTest {
 
     public static int num = 0;
 
-    public void print0() {
-        if (num == 0) {
+    public synchronized void print0() {
+        while (num == 0) {
             try {
                 this.wait();
             } catch (InterruptedException e) {
@@ -18,20 +18,23 @@ public class MyNumTest {
         }
         num--;
         System.out.println(Thread.currentThread().getName()+"打印："+num);
+
+        //唤醒打印1的线程
         this.notifyAll();
 
     }
 
-    public void print1() {
-        if (num != 0) {
+    public synchronized void print1() {
+        while (num != 0) {
             try {
                 this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println(Thread.currentThread().getName()+"打印："+num);
         num++;
+        System.out.println(Thread.currentThread().getName()+"打印："+num);
+
         this.notifyAll();
     }
 }

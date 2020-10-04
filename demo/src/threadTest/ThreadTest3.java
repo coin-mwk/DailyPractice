@@ -10,15 +10,28 @@ public class ThreadTest3 {
         MyNumTest myNumTest = new MyNumTest();
 
         new Thread(()->{
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 myNumTest.print0();
             }
-        }).start();
+        },"打印0的线程1").start();
+
         new Thread(()->{
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
+                myNumTest.print0();
+            }
+        },"打印0的线程2").start();
+
+        new Thread(()->{
+            for (int i = 0; i < 5; i++) {
                 myNumTest.print1();
             }
-        }).start();
+        },"打印1的线程1").start();
+
+        new Thread(()->{
+            for (int i = 0; i < 5; i++) {
+                myNumTest.print1();
+            }
+        },"打印1的线程2").start();
 
     }
 }
