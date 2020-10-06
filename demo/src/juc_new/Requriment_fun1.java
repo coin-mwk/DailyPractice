@@ -20,41 +20,56 @@ public class Requriment_fun1 {
     final Condition con3 = lock.newCondition();
 
     public void q_ve() {
-        while (flag != 1) {
-            try {
-                con1.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        lock.lock();
+        try {
+            while (flag != 1) {
+                try {
+                    con1.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println(Thread.currentThread().getName()+"正在切菜");
+            flag += 1 ;
+            con2.signal();
+        }finally {
+            lock.unlock();
         }
-        System.out.println("正在切菜");
-        flag += 1 ;
-        con2.signal();
     }
 
     public void c_ve() {
-        while (flag !=2 ) {
-            try {
-                con2.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        lock.lock();
+        try {
+            while (flag !=2 ) {
+                try {
+                    con2.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println(Thread.currentThread().getName()+"正在炒菜");
+            flag += 1;
+            con3.signal();
+        }finally {
+            lock.unlock();
         }
-        System.out.println("正在炒菜");
-        flag += 1;
-        con3.signal();
     }
 
     public void d_ve() {
-        while (flag != 3) {
-            try {
-                con3.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        lock.lock();
+        try {
+            while (flag != 3) {
+                try {
+                    con3.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println(Thread.currentThread().getName()+"正在端菜");
+            flag = 1;
+            con1.signal();
+        }finally {
+            lock.unlock();
         }
-        System.out.println("正在端菜");
-        flag = 1;
-        con1.signal();
     }
 }
