@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/10.6设计模式/10.6设计模式.iml" filepath="$PROJECT_DIR$/10.6设计模式/10.6设计模式.iml" />
       <module fileurl="file://$PROJECT_DIR$/8.12/8.12.iml" filepath="$PROJECT_DIR$/8.12/8.12.iml" />
       <module fileurl="file://$PROJECT_DIR$/8.27网络编程/8.27网络编程.iml" filepath="$PROJECT_DIR$/8.27网络编程/8.27网络编程.iml" />
       <module fileurl="file://$PROJECT_DIR$/8.29反射/8.29反射.iml" filepath="$PROJECT_DIR$/8.29反射/8.29反射.iml" />
