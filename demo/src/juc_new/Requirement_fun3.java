@@ -14,13 +14,7 @@ public class Requirement_fun3 {
 
     ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private String obj = "";
-//
-//    public Requirement_fun3() {
-//    }
-//
-//    public Requirement_fun3(String obj) {
-//        this.obj = obj;
-//    }
+
 
     void  read() {
         lock.readLock().lock();
