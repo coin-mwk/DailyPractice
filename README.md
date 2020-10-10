@@ -22,3 +22,5 @@ record my daily practice
 #10-8  打球上课
 
 #10-9  买iPad
+
+#10-10 今天发现耳机坏了 ，烦哦
