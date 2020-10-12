@@ -24,3 +24,5 @@ record my daily practice
 #10-9  买iPad
 
 #10-10 今天发现耳机坏了 ，烦哦
+
+#10-12 湖人总冠军
