@@ -49,3 +49,5 @@ record my daily practice
 周四
 * 复习体系结构
 
+10-23 漫无目的
+
