@@ -1,6 +1,6 @@
 # DailyPractice
 record my daily practice
-#日常联系记录
+#日常记录
 
 
 #今日到校
@@ -50,4 +50,6 @@ record my daily practice
 * 复习体系结构
 
 10-23 漫无目的
+
+
 
