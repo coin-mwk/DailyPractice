@@ -51,3 +51,4 @@ record my daily practice
 
 10-23 漫无目的
 
+10-26 来了臭宝贝
