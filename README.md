@@ -1,6 +1,6 @@
 # DailyPractice
 record my daily practice
-#日常联系记录
+#日常记录
 
 
 #今日到校
@@ -51,4 +51,9 @@ record my daily practice
 
 10-23 漫无目的
 
+<<<<<<< HEAD
 10-26 来了臭宝贝
+=======
+
+
+>>>>>>> a9534546e007494268d06708a28ff4efb44d3104
