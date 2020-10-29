@@ -3,7 +3,7 @@
 @File    : test3.py
 @Time    : 2020/10/29 8:39 上午
 @Author  : fitz
-@Description : 使用tfidf对文本更好的分类
+@Description : 使用tf-idf对文本更好的分类
 
 """
 
