@@ -18,6 +18,7 @@ def main():
     # 实例化
     dict = DictVectorizer()
 
+    # 返回的data为sparse矩阵
     data = dict.fit_transform(dict_data)
 
     # 返回值为转换之前的数据格式
@@ -26,8 +27,7 @@ def main():
     # 返回特征值列表
     print(dict.get_feature_names())
 
-    # 返回sparse矩阵
-    print(data)
+    print(data.toarray())
 
 
 if __name__ == '__main__':
