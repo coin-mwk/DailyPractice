@@ -45,15 +45,14 @@ def naiveBayes():
 
     #拟合程度？
     y_train_predict = estimator.predict(x_train)
-    print("y_train:\n", y_train)
-    print("y_train_predict:\n", y_train_predict)
+    print("y_train:\n", y_train.head(10))
+    print("y_train_predict:\n", y_train_predict.head(10))
 
     #泛化能力？
     y_test_predict = estimator.predict(x_test)
     print("y_test:\n", y_test)
     print("y_test_predict:\n", y_test_predict)
 
-    # print("直接比对真实值和预测值：\n", y_test == y_predict)
 
     # 可视化
     from matplotlib import pyplot as plt
