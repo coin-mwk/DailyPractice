@@ -29,7 +29,6 @@ def naiveBayes():
 
     # 划分数据集
     x_train, x_test, y_train, y_test = train_test_split(news.data, news.target, test_size=0.25)
-    print(len(y_train))
     # 文本特征抽取
     tf = TfidfVectorizer()
     x_train = tf.fit_transform(x_train)   # 训练集的特征抽取
@@ -45,8 +44,8 @@ def naiveBayes():
 
     #拟合程度？
     y_train_predict = estimator.predict(x_train)
-    print("y_train:\n", y_train.head(10))
-    print("y_train_predict:\n", y_train_predict.head(10))
+    print("y_train:\n", y_train)
+    print("y_train_predict:\n", y_train_predict)
 
     #泛化能力？
     y_test_predict = estimator.predict(x_test)
@@ -56,15 +55,39 @@ def naiveBayes():
 
     # 可视化
     from matplotlib import pyplot as plt
-
-
-    print(y_train)
-    plt.plot(y_train)
+    # 取前100个数据绘图
+    x_len = 100
+    a_train = list()
+    a_train_pre = list()
+    a_test = list()
+    a_test_pre = list()
+    for i in range(0, 100):
+        a_train.append(y_train[i])
+        a_train_pre.append(y_train_predict[i])
+        a_test.append(y_test[i])
+        a_test_pre.append(y_test_predict[i])
+    print(a_train)
+    print(a_train_pre)
+    print(a_test)
+    print(a_test_pre)
+    # 拟合能力比对图
+    plt.plot(range(0, 100), a_train)
+    plt.plot(range(0, 100), a_train_pre)
+    plt.legend(('y_train', 'y_train_predict'))
+    plt.show()
+    # 泛化能力比对图
+    plt.plot(range(0, 100), a_test, marker='.')
+    plt.plot(range(0, 100), a_test_pre, marker='.')
+    plt.legend(('y_test', 'y_test_predict'))
     plt.show()
 
     # 方法二：计算准确率
     score = estimator.score(x_test, y_test)
     print("准确率为：\n", score)
+
+    # 方法三：计算精确率与召回率
+    from sklearn.metrics import classification_report
+    print("每个类别的精确率和召回率：\n", classification_report(y_test, y_test_predict, target_names=news.target_names))
 
 
 
