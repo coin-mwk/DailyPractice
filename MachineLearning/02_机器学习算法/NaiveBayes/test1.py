@@ -12,15 +12,12 @@
 5、算法评估
 
 """
-import ssl
 
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-
-from sklearn.preprocessing import StandardScaler
 
 
 def naiveBayes():
@@ -88,7 +85,6 @@ def naiveBayes():
     # 方法三：计算精确率与召回率
     from sklearn.metrics import classification_report
     print("每个类别的精确率和召回率：\n", classification_report(y_test, y_test_predict, target_names=news.target_names))
-
 
 
 if __name__ == '__main__':
