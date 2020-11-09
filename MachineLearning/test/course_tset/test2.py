@@ -6,14 +6,14 @@
 
 """
 
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_breast_cancer
-from sklearn.naive_bayes import GaussianNB
-from sklearn.model_selection import learning_curve
-from sklearn.model_selection import ShuffleSplit
-import numpy as np
-from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+
 cancer = load_breast_cancer()
 
 print('肿瘤的分类:',cancer['target_names'])

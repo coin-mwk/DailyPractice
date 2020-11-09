@@ -12,6 +12,10 @@
 # @Author  : YYLin
 # @Email   : 854280599@qq.com
 # @File    : Third-Program-MultinomialNB-20news.py
+
+
+import test1
+
 # 从sklearn.datasets里导入新闻数据抓取器fetch_20newsgroups。
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.model_selection import train_test_split
