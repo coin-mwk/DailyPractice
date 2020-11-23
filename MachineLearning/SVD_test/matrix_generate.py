@@ -20,17 +20,26 @@
 # 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 
-import numpy as np
+from numpy import *
 
 def data_split1():
-    file_path = "./ml-100k/u1.base"
-    user_item = np.loadtxt(file_path, dtype="int64", usecols=(0,1,2))
-    user_mark_data = {}
-    user_count = 943
-    for i in:
-        user_mark_data.append()
-    print(user_item)
 
+
+    data = mat([[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5],
+     [1, 0, 0, 3, 0, 4, 0, 0, 0, 0, 3],
+     [2, 0, 0, 0, 4, 0, 0, 1, 0, 4, 0],
+     [3, 3, 4, 0, 0, 0, 0, 2, 2, 0, 0],
+     [4, 4, 5, 0, 0, 0, 0, 5, 5, 0, 0],
+     [5, 0, 0, 0, 5, 0, 1, 0, 0, 5, 0],
+     [6, 3, 4, 0, 0, 0, 0, 5, 5, 0, 1],
+     [7, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4],
+     [8, 0, 0, 2, 0, 2, 5, 0, 0, 1, 2],
+     [9, 0, 0, 0, 5, 0, 0, 0, 0, 4, 0],
+     [10, 2, 1, 2, 1, 2, 1, 1, 2, 2, 1]])
+    print(data[1, :])
+    print(data[1, 1:4])
+
+    print(nonzero(data[1, :].A==0)[1])
 
 
 if __name__ == '__main__':

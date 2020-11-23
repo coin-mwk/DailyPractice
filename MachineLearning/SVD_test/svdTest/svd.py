@@ -21,6 +21,7 @@ from numpy import linalg as la
 
 '''加载测试数据集'''
 def loadExData():
+    # 每一行代表一个用户对不同的item的评分
     return mat([[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5],
                 [1, 0, 0, 3, 0, 4, 0, 0, 0, 0, 3],
                 [2, 0, 0, 0, 4, 0, 0, 1, 0, 4, 0],
@@ -72,8 +73,11 @@ def svdExt(dataMat, percentage):
     # 确定变换后的维数k
     k = sigmaPct(sigma, percentage)
     sigmaK = mat(eye(k) * sigma[:k])  # 构建对角矩阵
+    print(k)
+    print(sigmaK)
     # 根据k的值将原始数据转换到k维空间(低维),xformedItems表示物品(item)在k维空间转换后的值
     xformedItems = dataMat.T * u[:, :k] * sigmaK.I
+    print(xformedItems)
     return xformedItems
 
 
@@ -89,23 +93,19 @@ def svdEst(xformedItems, dataMat, user, simMeas, item):
     n=shape(dataMat)[1]    #shape返回行数和列数，0返回行数，1返回列数
     simTotal = 0.0
     ratSimTotal = 0.0
-    # # 奇异值分解---->降维
-    # u, sigma, vt = la.svd(dataMat)
-    # # 确定变换后的维数k
-    # k = sigmaPct(sigma, percentage)
-    # sigmaK = mat(eye(k) * sigma[:k])     # 构建对角矩阵
-    # print(sigmaK)
-    # 根据k的值将原始数据转换到k维空间(低维),xformedItems表示物品(item)在k维空间转换后的值
-    # xformedItems = dataMat.T*u[:,:k]*sigmaK.I
 
     for j in range(n):
-        userRating=dataMat[user,j]
-        if userRating==0 or j==item:continue
-        similarity=simMeas(xformedItems[item,:].T, xformedItems[j,:].T)    # 计算物品item与物品j之间的相似度
-        simTotal+=similarity     # 对所有相似度求和
-        ratSimTotal+=similarity*userRating           # 用"物品item和物品j的相似度"乘以"用户对物品j的评分"，并求和
-    if simTotal==0:return 0
-    else:return ratSimTotal/simTotal                  # 得到对物品item的预测评分
+        userRating = dataMat[user, j]
+        print("来啦！", "userRating="+str(dataMat[user, j]), "j="+str(j), "item="+str(item))
+        if userRating == 0 or j == item:
+            continue
+        similarity = simMeas(xformedItems[item, :].T, xformedItems[j, :].T)    # 计算物品item与物品j之间的相似度
+        simTotal += similarity     # 对所有相似度求和
+        ratSimTotal += similarity*userRating           # 用"物品item和物品j的相似度"乘以"用户对物品j的评分"，并求和
+    if simTotal == 0:
+        return 0
+    else:
+        return ratSimTotal/simTotal                  # 得到对物品item的预测评分
 
 
 """
@@ -116,19 +116,20 @@ simMeas:相似度度量的方法
 eatMerhod:预测评分的方法
 percentage:奇异值占比的阈值
 """
-def recommend(dataMat,user,N=5,simMeas=cosSim,estMethod=svdEst,percentage=0.9):
+def recommend(dataMat, user, N=5, simMeas=cosSim, estMethod=svdEst, percentage=0.9):
     """生成评分最高的N个结果"""
-    unratedItems = nonzero(dataMat[user,:].A==0)[1]  #建立一个用户未评分item的列表
+    unratedItems = nonzero(dataMat[user, :].A==0)[1]  #建立一个用户未评分item的列表
     print("==========non-predicted items=========")
     print(unratedItems)
     print("==========non-predicted items=========\n")
     if len(unratedItems) == 0:
         return 'you rated everything'  #如果都已经评过分，则退出
+    # 先对整个矩阵进行奇异值分解
+    xformedItems = svdExt(dataMat, percentage)
     itemScores = []
     # 对于每个未评分的item，都计算其预测评分
     for item in unratedItems:
         print("now predicting item_id:", item)
-        xformedItems = svdExt(dataMat, percentage)
         estimatedScore = estMethod(xformedItems, dataMat, user, simMeas, item)
         print("the estimated score of item_id=", item, "------>", estimatedScore, "\n")
 
