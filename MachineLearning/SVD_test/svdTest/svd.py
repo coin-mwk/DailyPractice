@@ -16,12 +16,13 @@
 
 #coding=utf-8
 from numpy import *
+import  numpy as np
 from numpy import linalg as la
 
 
-'''加载测试数据集'''
+'''测试数据集'''
 def loadExData():
-    # 每一行代表一个用户对不同的item的评分
+    # 每一行代表一个用户对不同的item的评分  11*11
     return mat([[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 5],
                 [1, 0, 0, 3, 0, 4, 0, 0, 0, 0, 3],
                 [2, 0, 0, 0, 4, 0, 0, 1, 0, 4, 0],
@@ -68,13 +69,30 @@ def sigmaPct(sigma, percentage):
 
 
 def svdExt(dataMat, percentage):
+    # 先将稀疏矩阵0元素用均值补齐
+    row_sum = np.sum(dataMat, axis=1)  # 返回每个用户评分均值的矩阵
+    for i in range(11):
+        nonzero_count = np.mat(np.nonzero(dataMat[i])).shape[1]  # 第i行非零元素的个数
+        row_average = row_sum[i, 0] / nonzero_count  # 第i行的评分均值
+        print("第", i, "个用户有", (11-nonzero_count), "部电影未评分,此用户对所有电影的平均评分为", row_average)
+        for j in range(11):
+            if dataMat[i, j] == 0:
+                dataMat[i, j] = row_average
+    print(dataMat)
     # 奇异值分解---->降维
     u, sigma, vt = la.svd(dataMat)
+    print("-------------==============")
+    print(u)
+    print("-------------==============")
+    print(sigma)
+    print("-------------==============")
+    print(vt)
+    print("-------------==============")
     # 确定变换后的维数k
     k = sigmaPct(sigma, percentage)
     sigmaK = mat(eye(k) * sigma[:k])  # 构建对角矩阵
-    print(k)
-    print(sigmaK)
+    print("k=", k)
+    print("sigmaK=", sigmaK)
     # 根据k的值将原始数据转换到k维空间(低维),xformedItems表示物品(item)在k维空间转换后的值
     xformedItems = dataMat.T * u[:, :k] * sigmaK.I
     print(xformedItems)

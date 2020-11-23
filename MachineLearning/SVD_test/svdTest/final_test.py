@@ -6,10 +6,11 @@
 
 
 import pandas as pd
+import numpy as np
 import svd
 def main():
     testdata = svd.loadExData()
-    print(testdata)
+
     final_N_prediction = svd.recommend(testdata, 2, N=5, percentage=0.8) # 对编号为1的用户推荐评分较高的3件商品
     # file_path = "./../ml-1m/ratings.dat"
     # u1_data = pd.read_csv(file_path)
