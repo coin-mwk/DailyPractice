@@ -8,32 +8,9 @@ import numpy as np
 from numpy import *
 from numpy import linalg as la
 
-'''以下是三种计算相似度的算法，分别是欧式距离、皮尔逊相关系数和余弦相似度 
-注意三种计算方式的参数inA和inB都是列向量'''
-
-
-def cosineMethod(a, b):
-    from sklearn.metrics.pairwise import cosine_similarity
-    s = cosine_similarity(a, b)
-    return 1
-
-
-def ecludSim(a, b):
-    # 这里的1/(1+距离)表示将相似度的范围放在0与1之间
-    return 1.0 / (1.0 + la.norm(a - b))
-
-
-def pearsSim(a, b):
-    # 皮尔逊相关系数的计算方法corrcoef()，参数rowvar=0表示对列求相似度，这里的0.5+0.5*corrcoef()是为了将范围归一化放到0和1之间=
-    if len(a) < 3:
-        return 1.0
-    return 0.5 + 0.5 * corrcoef(a, b, rowvar=0)[0][1]
-
-
-def cosSim(a, b):
-    num = float(a.T * b)
-    denom = la.norm(a) * la.norm(b)
-    return 0.5 + 0.5 * (num / denom)  # 将相似度归一到0与1之间
+def matrixFill(dataMat):
+    """将稀疏矩阵按列均值进行填充"""
+    pass
 
 
 def sigmaPct(sigma, percentage):

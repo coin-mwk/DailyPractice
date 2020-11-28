@@ -10,16 +10,19 @@ import numpy as np
 
 def loading_data():
     # 将用户评分矩阵初始化为零矩阵， 共有6040个用户对3952部电影进行评分
-    dataMat = np.zeros((6040, 3952))
+    # dataMat = np.zeros((6040, 3952))               # 1M数据集
+    dataMat = np.zeros((15, 938))                  # 1K数据集中的一个u.base
     # 根据ratings.dat将dataMat构造为user-item矩阵
-    for row in open("SVD/ml-1m/ratings.dat", "r"):
-        user, item, rating, _ = row.split('::')
+    # for row in open("../ml-1m/ratings.dat", "r"):
+    for row in open("user_item.base", "r"):
+        # user, item, rating, _ = row.split('::')
+        user, item, rating, _ = row.split('	')
         user, item, rating = int(user), int(item), int(rating)
         dataMat[user - 1][item - 1] = rating
 
     # 关联电影id与title
     item_title = {}
-    for row in open("SVD/ml-1m/movies.dat", "r"):
+    for row in open("../ml-1m/movies.dat", "r"):
         movie_id, movie_name, movie_desc = row.split('::')
         item_title[movie_id] = movie_name
 

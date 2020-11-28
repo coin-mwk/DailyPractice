@@ -5,14 +5,21 @@
 # @Description:
 
 
-import preprocessing
-import svd_01
+from SVD_vs_CF.preprocessing import loading_data
+# import svd_01
+import numpy as np
 
 
 def main():
-    dataMat = preprocessing.loading_data()
+    dataMat = loading_data()
     print(dataMat)
 
 
+# def demo():
+    # svd_01.matrixFill(dataMat)
+
+
+
 if __name__ == '__main__':
+    # demo()
     main()
