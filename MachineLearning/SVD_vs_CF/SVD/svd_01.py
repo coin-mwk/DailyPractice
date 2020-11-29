@@ -7,10 +7,7 @@
 import numpy as np
 from numpy import *
 from numpy import linalg as la
-
-def matrixFill(dataMat):
-    """将稀疏矩阵按列均值进行填充"""
-    pass
+from SVD_vs_CF.similarityMethod import *
 
 
 def sigmaPct(sigma, percentage):
@@ -29,18 +26,7 @@ def sigmaPct(sigma, percentage):
 
 
 def svdExt(dataMat, percentage):
-    # 先将矩阵0元素用均值补齐， 矩阵大小为6040*3952
-    row_sum = np.sum(dataMat, axis=1)  # 返回每个用户评分均值的矩阵
-    # 计算每个用户的评分均值并补齐缺失评分
-    for i in range(6040):
-        nonzero_count = np.mat(np.nonzero(dataMat[i])).shape[1]  # 第i行非零元素的个数
-        row_average = row_sum[i, 0] / nonzero_count  # 第i行的评分均值
-        # print("第", i, "个用户有", (3952-nonzero_count), "部电影未评分,此用户对所有电影的平均评分为", row_average)
-        for j in range(3952):
-            if dataMat[i, j] == 0:
-                dataMat[i, j] = row_average
-    # print(dataMat)
-    # 奇异值分解---->降维
+    """奇异值分解"""
     u, sigma, vt = la.svd(dataMat)
     # 确定变换后的维数k
     k = sigmaPct(sigma, percentage)
@@ -92,7 +78,7 @@ percentage:奇异值占比的阈值
 """
 
 
-def recommend(dataMat, user, N=5, simMeas=cosSim, estMethod=svdEst, percentage=0.9):
+def recommend(dataMat, user, N, simMeas=cos_sim, percentage=0.9):
     """生成评分最高的N个结果"""
     unratedItems = nonzero(dataMat[user, :].A == 0)[1]  # 建立一个用户未评分item的列表
     print("==========non-predicted items=========")
@@ -107,7 +93,7 @@ def recommend(dataMat, user, N=5, simMeas=cosSim, estMethod=svdEst, percentage=0
     # 对于每个未评分的item，都计算其预测评分
     for item in unratedItems:
         # print("now predicting item_id:", item)
-        estimatedScore = estMethod(xformedItems, dataMat, user, cosSim, item)
+        estimatedScore = estMethod(xformedItems, dataMat, user, cos_sim, item)
         # print("the estimated score of item_id=", item, "------>", estimatedScore, "\n")
 
         itemScores.append((item, estimatedScore))

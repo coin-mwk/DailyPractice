@@ -10,16 +10,16 @@
 import numpy as np
 
 
-def cul_sim():
+def cul_sim(user_count, item_count):
     # 计算物品之间的相似度
     # 1、导入数据
-    from SVD_vs_CF.preprocessing import loading_data
-    dataMat, movieId_name_dict = loading_data()
+    from SVD_vs_CF.preprocessing import loading_data_CF
+    dataMat, movieId_name_dict = loading_data_CF(user_count, item_count)
     # 2、统计喜欢每部电影的用户数量，（求user_item评分矩阵每一列的非零元素个数，将user_item转置求每一行的非零元素的个数）
     transpose_dataMat = dataMat.T
     movie_popular = list()            # 统计喜欢每部电影的用户数
     user_popular = list()             # 统计每个用户喜欢的电影总数
-    for i in range(938):
+    for i in range(item_count):
         nonzero_count = np.mat(np.nonzero(transpose_dataMat[i])).shape[1]      # 转置后第i行非零元素的个数
         movie_popular.append(nonzero_count)
     for i in range(15):
@@ -27,15 +27,15 @@ def cul_sim():
         user_popular.append(nonzero_count)
     # 3.1、计算出喜欢两两物品用户数，填入矩阵C中
     # 得到矩阵C后，利用公式计算物品之间的相似度得到相似度矩阵W
-    C = np.mat(np.zeros(938 * 938).reshape((938, 938)))
-    W = np.mat(np.zeros(938 * 938).reshape((938, 938)))
-    for i in range(938):
-        for j in range(938):
+    C = np.mat(np.zeros(item_count * item_count).reshape((item_count, item_count)))
+    W = np.mat(np.zeros(item_count * item_count).reshape((item_count, item_count)))
+    for i in range(item_count):
+        for j in range(item_count):
             count = 0
             N_i = movie_popular[i]    # 喜欢电影i的用户数
             N_j = movie_popular[j]    # 喜欢电影j的用户数
             W_count = 0.0            # 公式Wij的分子
-            for k in range(15):
+            for k in range(user_count):
                 if dataMat[k, i] != 0:
                     if dataMat[k, j] != 0:
                         # 此时用户k同时喜欢电影i和j
@@ -52,33 +52,40 @@ def cul_sim():
 
 
 # 943 * 1682
-def recommendation(user, N):
+def recommendation(user, N, user_count, item_count):
+    user = user
+    if user < 0 or user > user_count:
+        print("请正确输入参数！")
+        return
     # 为用户user推荐N部电影
-    W, dataMat, movieId_names = cul_sim()
+    W, dataMat, movieId_names = cul_sim(user_count, item_count)
     mt_liked = np.sort(dataMat[user], axis=1)[0, -1]
     item_id = 0
-    for i in range(938):
+    for i in range(item_count):
         if mt_liked == dataMat[user, i]:
             item_id = i
     # 求出与item_id最相似的N部电影推荐给用户user
     rec_list = dict()
-    for i in range(938):
+    for i in range(item_count):
         if W[item_id, i] != 0:
             rec_list[i] = W[item_id, i]
     rec_list = sorted(rec_list.items(), key=lambda d: d[1], reverse=True)
     length_rec = len(rec_list)
     if N > length_rec:
         print("只有", length_rec, "部电影可被推荐！")
-        print("为用户", user, "推荐的", length_rec, "部电影如下：")
+        print("为用户", user+1, "推荐的", length_rec, "部电影如下：")
         for temp in rec_list[:N]:
             print(movieId_names[str(temp[0])])
-    print("为用户", user, "推荐的", N, "部电影如下：")
+    print("为用户", user+1, "推荐的", N, "部电影如下：")
     for temp in rec_list[:N]:
         print(movieId_names[str(temp[0])])
 
 
+
 def main():
-    recommendation(12, 7)
+    user_count = 15
+    item_count = 938
+    recommendation(user=8, N=18, user_count=user_count, item_count=item_count)
 
 
 if __name__ == '__main__':

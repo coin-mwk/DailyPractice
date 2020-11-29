@@ -10,11 +10,11 @@
 import numpy as np
 
 
-def cul_sim():
+def cul_sim(user_count, item_count):
     # 计算物品之间的相似度
     # 1、导入数据
-    from SVD_vs_CF.preprocessing import loading_data
-    dataMat, movieId_name_dict = loading_data()
+    from SVD_vs_CF.preprocessing import loading_data_CF
+    dataMat, movieId_name_dict = loading_data_CF(user_count, item_count)
     # 2、统计喜欢每部电影的用户数量，（求user_item评分矩阵每一列的非零元素个数，将user_item转置求每一行的非零元素的个数）
     transpose_dataMat = dataMat.T
     movie_popular = list()            # 统计喜欢每部电影的用户数
@@ -78,6 +78,9 @@ def recommendation(user, N):
 
 
 def main():
+    user_count = 15
+    item_count = 938
+    cul_sim(user_count, item_count)
     recommendation(12, 7)
 
 
