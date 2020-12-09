@@ -73,19 +73,18 @@ def recommendation(user, N, user_count, item_count):
     length_rec = len(rec_list)
     if N > length_rec:
         print("只有", length_rec, "部电影可被推荐！")
-        print("为用户", user+1, "推荐的", length_rec, "部电影如下：")
+        print("为用户", user, "推荐的", length_rec, "部电影如下：")
         for temp in rec_list[:N]:
             print(movieId_names[str(temp[0])])
-    print("为用户", user+1, "推荐的", N, "部电影如下：")
+    print("为用户", user, "推荐的", N, "部电影如下：")
     for temp in rec_list[:N]:
         print(movieId_names[str(temp[0])])
-
 
 
 def main():
     user_count = 15
     item_count = 938
-    recommendation(user=8, N=18, user_count=user_count, item_count=item_count)
+    recommendation(user=6, N=12, user_count=user_count, item_count=item_count)
 
 
 if __name__ == '__main__':

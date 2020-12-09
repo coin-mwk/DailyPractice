@@ -2,18 +2,18 @@
 # -*- coding:utf-8 -*-
 # @Time : 2020/11/23 10:50 上午
 # @Author : Fitz
-# @Description: 用原始SVD方法实现推荐，评分缺失值用平均值补齐
+# @Description: 用原始SVD方法实现推荐， 用
 
 import numpy as np
 from numpy import *
 from numpy import linalg as la
 from SVD_vs_CF.similarityMethod import *
+from scipy.sparse.linalg import svds
+
 
 
 def sigmaPct(sigma, percentage):
-    """对K值得预测
-        方法：按照前k个奇异值的平方和占总奇异值的平方和的百分比percentage来确定k的值
-             后续计算SVD时需要将原始矩阵转换到k维空间"""
+    """对K值的预测"""
     sigma2 = sigma ** 2  # 对sigma求平方
     sum_sigma2 = sum(sigma2)  # 求所有奇异值sigma的平方和
     sum_sigmak = 0  # 求前k个奇异值的平方和
@@ -27,9 +27,10 @@ def sigmaPct(sigma, percentage):
 
 def svdExt(dataMat, percentage):
     """奇异值分解"""
-    u, sigma, vt = la.svd(dataMat)
+    u, sigma, v = svds(dataMat, k=8)
     # 确定变换后的维数k
     k = sigmaPct(sigma, percentage)
+    u, sigma, vt = la.svd(dataMat)
     sigmaK = mat(eye(k) * sigma[:k])  # 构建对角矩阵
     # print(k)
     # print(sigmaK)
