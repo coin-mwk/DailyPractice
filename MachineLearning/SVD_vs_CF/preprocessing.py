@@ -79,7 +79,8 @@ def loading_data_svd_test(user_count, item_count):
         item_title[movie_id] = movie_name
 
     # 返回user-item矩阵和电影列表
-    return np.mat(dataMat), item_title
+    # return np.mat(dataMat), item_title
+    return dataMat, item_title
 
 
 def main():
