@@ -8,31 +8,21 @@
 
 
 import numpy as np
+import pandas as pd
 
 
-def loading_data_CF(user_count, item_count):
-    # 将用户评分矩阵初始化为零矩阵， 共有15个用户对938部电影进行评分
-    dataMat = np.zeros((user_count, item_count))  # 1K数据集中的一个u.base
-    # 根据ratings.dat将dataMat构造为user-item矩阵
-    for row in open("user_item.base", "r"):
-        user, item, rating, _ = row.split('	')
-        user, item, rating = int(user), int(item), int(rating)
-        dataMat[user - 1][item - 1] = rating
-
-    # 关联电影id与title
-    item_title = {}
-    for row in open("../ml-1m/movies.dat", "r"):
-        movie_id, movie_name, movie_desc = row.split('::')
-        item_title[movie_id] = movie_name
-
-    # 返回user-item矩阵和电影列表
-    return np.mat(dataMat), item_title
-
-
-def cul_sim(user_count, item_count):
+def cf_pre(user_count, item_count):
     # 计算物品之间的相似度
     # 1、导入数据
-    dataMat, movieId_name_dict = loading_data_CF(user_count, item_count)
+    ratings = pd.read_csv('user_item.base', sep='\t', encoding='utf-8', header=None,
+                          names=['user_id', 'movie_id', 'rating', 'timestamp'], engine='python')
+    # 构建user-item矩阵
+    Ratings = ratings.pivot(index='user_id', columns='movie_id', values='rating').fillna(0)
+    # 将DataFrame格式转换为numpy的ndarray格式
+    dataMat = Ratings.values
+    # user-item矩阵的稀疏性
+    sparsity = round(1.0 - len(ratings) / float(15 * 733), 3)
+    print('The sparsity level of MovieLens1M dataset is ' + str(sparsity * 100) + '%')
     # 2、统计喜欢每部电影的用户数量，（求user_item评分矩阵每一列的非零元素个数，将user_item转置求每一行的非零元素的个数）
     transpose_dataMat = dataMat.T
     movie_popular = list()            # 统计喜欢每部电影的用户数
@@ -66,6 +56,16 @@ def cul_sim(user_count, item_count):
                 W[i, j] = 0
 
     # print(W)
+    # 关联电影id与title
+    movieId_name_dict = {}
+    for row in open("ml-1m/movies.dat", "r"):
+        movie_id, movie_name, movie_desc = row.split('::')
+        movieId_name_dict[movie_id] = movie_name
+    # 计算准确率  平方绝对误差
+    from sklearn.metrics import mean_absolute_error
+    x_norm = np.linalg.norm(W, ord=None, axis=None, keepdims=True)
+    pred = (np.inner(dataMat, W))/x_norm
+    print("CF算法的平均绝对误差为：{0}".format(mean_absolute_error(dataMat, pred)))
     return W, dataMat, movieId_name_dict
 
 
@@ -76,7 +76,8 @@ def recommendation(user, N, user_count, item_count):
         print("请正确输入参数！")
         return
     # 为用户user推荐N部电影
-    W, dataMat, movieId_names = cul_sim(user_count, item_count)
+    W, dataMat, movieId_names = cf_pre(user_count, item_count)
+    dataMat = np.mat(dataMat)
     mt_liked = np.sort(dataMat[user], axis=1)[0, -1]
     item_id = 0
     for i in range(item_count):
@@ -101,7 +102,7 @@ def recommendation(user, N, user_count, item_count):
 
 def main():
     user_count = 15
-    item_count = 938
+    item_count = 733
     recommendation(user=6, N=12, user_count=user_count, item_count=item_count)
 
 

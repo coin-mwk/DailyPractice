@@ -13,15 +13,15 @@ import pandas as pd
 
 def svd_pre(user_id, N):
     # 获取数据
-    ratings = pd.read_csv('../ml-1m/ratings.dat', sep='::', encoding='utf-8', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'], engine='python')
-    users = pd.read_csv('../ml-1m/users.dat', sep='::', encoding='utf-8', header=None, names=['user_id', 'gender', 'age', 'occ_desc', 'zipcode'], engine='python')
-    movies = pd.read_csv('../ml-1m/movies.dat', sep='::', encoding='utf-8', header=None, names=['movie_id', 'title', 'genres'], engine='python')
+    ratings = pd.read_csv('ml-1m/ratings.dat', sep='::', encoding='utf-8', header=None, names=['user_id', 'movie_id', 'rating', 'timestamp'], engine='python')
+    users = pd.read_csv('ml-1m/users.dat', sep='::', encoding='utf-8', header=None, names=['user_id', 'gender', 'age', 'occ_desc', 'zipcode'], engine='python')
+    movies = pd.read_csv('ml-1m/movies.dat', sep='::', encoding='utf-8', header=None, names=['movie_id', 'title', 'genres'], engine='python')
     n_users = users.user_id.unique().shape[0]
     n_movies = movies.movie_id.unique().shape[0]
     print("Number of users = ", n_users, " | Number of movies = ", n_movies)
     # 构建user-item矩阵
     Ratings = ratings.pivot(index='user_id', columns='movie_id', values='rating').fillna(0)
-    # 经DataFrame格式转换为numpy的ndarray格式
+    # 将DataFrame格式转换为numpy的ndarray格式
     R = Ratings.values
     # user-item矩阵的稀疏性
     sparsity = round(1.0 - len(ratings) / float(n_users * n_movies), 3)
@@ -50,10 +50,11 @@ def svd_pre(user_id, N):
     preds_not_rated = movies[~movies['movie_id'].isin(user_full['movie_id'])]
     preds_not_rated = preds_not_rated.merge(pd.DataFrame(sorted_user_predictions), how='left', left_on='movie_id', right_on='movie_id').rename(columns={user_row_number: 'predictions'})
     preds_not_rated = preds_not_rated.sort_values('predictions', ascending=False).iloc[:N, :-1]      # 降序
-
+    # 打印结果
     print(preds_not_rated)
-
-
+    # 计算准确率  平方绝对误差
+    from sklearn.metrics import mean_absolute_error
+    print("svd算法的平均绝对误差为：{0}".format(mean_absolute_error(R, preds.values)))
 
 
 def main():
